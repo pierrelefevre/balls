@@ -85,7 +85,7 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [balls, setBalls] = useState(startingBalls);
   const [action, setAction] = useState("Start game");
-  const [info, setInfo] = useState("Add players, then start a game!");
+  const [info, setInfo] = useState("Add players, then start the game");
   const [activePlayer, setActivePlayer] = useState(0);
   const [gameState, setGameState] = useState("not started");
 
@@ -97,7 +97,7 @@ function App() {
         setGameState("game started");
         setAction("Next player")
         setActivePlayer(0);
-        setInfo("Game started! Please play " + players[0].name);
+        setInfo(players[0].name + ", start the game");
       }
       else {
         setAction("");
@@ -168,11 +168,11 @@ function App() {
       case "game started":
         if (activePlayer >= players.length - 1) {
           console.log(players);
-          setInfo(players[0].name + " play");
+          setInfo(players[0].name + ", your turn");
           setActivePlayer(0);
         }
         else {
-          setInfo(players[activePlayer + 1].name + " play");
+          setInfo(players[activePlayer + 1].name + ", your turn");
           setActivePlayer(activePlayer + 1);
         }
         break;
@@ -187,7 +187,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src='/android-chrome-384x384.png' className="logo" />
+        <img src='/android-chrome-384x384.png' alt="Logo" className="logo" />
         <h1>Color Balls</h1>
       </header>
       <main>
