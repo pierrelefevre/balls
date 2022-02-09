@@ -85,7 +85,7 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [balls, setBalls] = useState(startingBalls);
   const [action, setAction] = useState("Start game");
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState("Add players, then start a game!");
   const [activePlayer, setActivePlayer] = useState(0);
   const [gameState, setGameState] = useState("not started");
 
@@ -112,27 +112,43 @@ function App() {
 
       setBalls(balls.filter(b => b.number !== ball.number));
 
+      var removePlayers = new Set()
+
       players.forEach(player => {
-        console.log(activePlayer)
+        // If the ball and players have the same color
         if (player.color === ball.color) {
           var count = 0;
 
+          // Check if there is more than 1 ball with that color
           balls.forEach(b => {
             if (b.color === ball.color)
               count++;
           })
 
-          if (players.length === 2 && count === 1) {
-            setInfo(players[activePlayer].name + " has won the game!")
-            setAction("Restart");
-            setGameState("game over");
-            players.pop(player);
-          } else if (count === 1) {
+          // Remove player
+          if (count === 1) {
             setInfo(player.name + " has been eliminated by " + players[activePlayer].name)
-            players.pop(player);
+            removePlayers.add(player.name);
           }
         }
+
       })
+
+      // Remove all players that were eliminated this round
+
+      const activeLast = players[activePlayer]
+      const filteredPlayers = players.filter(p => !removePlayers.has(p.name))
+      setPlayers(filteredPlayers);
+
+      console.log(filteredPlayers)
+
+      // If there is only 2 players left, game is over
+      if (filteredPlayers.length <= 1) {
+        setInfo(activeLast.name + " has won the game!")
+
+        setAction("Restart");
+        setGameState("game over");
+      }
     }
   }
 
@@ -164,13 +180,14 @@ function App() {
         window.location.reload(false);
         break;
       default:
-        setInfo("Error, something went wrong");
+        setInfo("Illegal click");
     }
   }
 
   return (
     <div className="App">
       <header className="App-header">
+        <img src='/android-chrome-384x384.png' className="logo" />
         <h1>Color Balls</h1>
       </header>
       <main>
@@ -185,7 +202,7 @@ function App() {
         <Players players={players} setPlayers={setPlayers} />
 
         <div className="controls">
-          <button className="action" onClick={actionButton}>
+          <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null}>
             {action}
           </button>
           <h1>{info}</h1>

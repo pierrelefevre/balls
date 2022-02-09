@@ -20,6 +20,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #21252B;
+}
+
+.logo{
+  height: 100px;
+  margin-right: 1em;
+
 }
 
 .ball {
@@ -29,13 +36,14 @@ header {
   overflow: hidden;
   user-select: none;
   cursor: pointer;
+  margin: 10px;
 }
 
 .ball-stripe {
   height: 50%;
   width: 100%;
   position: relative;
-  top: 25%;
+  top: calc(25% - 2px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,8 +51,7 @@ header {
   font-weight: bolder;
   font-size: 50px;
 	-webkit-text-stroke: 2px black;
-  font-family: monospace;
-
+  padding-bottom: 5px;
 }
 
 
@@ -53,10 +60,14 @@ header {
   top: 100px;
   left: 0;
   width: 50%;
+  height: 50%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 20px;
+  background: #333842
 }
 
 .players{
@@ -66,14 +77,14 @@ header {
   align-items: flex-start;
   font-size: 20px;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 50%;
   background: #282C34;
   position: absolute;
   top: 100px;
   right: 0;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 20px 20px 20px 50px;
 }
 
 .players input{
@@ -93,8 +104,9 @@ header {
   font-weight: bolder;
   font-size: 20px;
   padding: 10px 0;
-  background: #333842;
-  width: 100%;
+  background: #2C313C;
+  max-width: 50%;
+  min-width: 360px;
   box-sizing: border-box;
   padding: 10px;
 }
@@ -111,6 +123,12 @@ header {
   top: calc(50% + 100px);
   box-sizing: border-box;
   padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  border-top: 1px solid #757575;
 }
 
 .action{
@@ -121,4 +139,6 @@ header {
   border: 3px solid #D7DAE0;
   padding: 20px 50px;
   border-radius: 10px;
+  user-select: none;
+  cursor: pointer;
 }
