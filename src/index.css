@@ -64,7 +64,7 @@ header {
   top: 100px;
   left: 0;
   width: 50%;
-  height: 50%;
+  height: calc(100% - calc(100px + 30%));
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -82,7 +82,7 @@ header {
   font-size: 20px;
   flex-direction: column;
   overflow-y: auto;
-  height: 50%;
+  height: calc(100% - calc(100px + 30%));
   background: #282C34;
   position: absolute;
   top: 100px;
@@ -100,7 +100,6 @@ header {
   border: 3px solid #333842;
   outline: 0;
   max-width: 300px;
-  margin-bottom: 10px;
 }
 
 .players input:focus{
@@ -128,7 +127,8 @@ header {
 
 .controls {
   position: absolute;
-  top: calc(50% + 100px);
+  bottom: 0;
+  height: 30%;
   box-sizing: border-box;
   padding: 20px;
   display: flex;
