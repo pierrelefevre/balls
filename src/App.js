@@ -95,11 +95,12 @@ function App() {
 
       if (activePlayer >= players.length - 1) {
         setGameState("game started");
+        setAction("Next player")
         setActivePlayer(0);
         setInfo("Game started! Please play " + players[0].name);
       }
       else {
-        setAction("Next player");
+        setAction("");
         const player = players[activePlayer + 1];
         setActivePlayer(activePlayer + 1);
 
@@ -140,7 +141,7 @@ function App() {
       case "not started":
         if (players.length > 0) {
           setGameState("choose colors");
-          setAction("Next player");
+          setAction("");
           const player = players[activePlayer];
           setInfo(player.name + ", choose color")
         } else {
@@ -170,7 +171,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Balls</h1>
+        <h1>Color Balls</h1>
       </header>
       <main>
         <div className="balls-holder">

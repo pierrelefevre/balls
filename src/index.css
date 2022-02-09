@@ -76,6 +76,29 @@ header {
   padding: 20px;
 }
 
+.players input{
+  background: #333842;
+  color: #D7DAE0;
+  font-weight: bolder;
+  font-size: 30px;
+  border: 2px solid #D7DAE0;
+  padding: 10px 30px;
+  border-radius: 10px;
+  max-width: 300px;
+  margin-bottom: 10px;
+}
+
+.players span{
+  color: #D7DAE0;
+  font-weight: bolder;
+  font-size: 20px;
+  padding: 10px 0;
+  background: #333842;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
 .player-controls{
   display: flex;
   justify-content: space-between;
@@ -88,4 +111,14 @@ header {
   top: calc(50% + 100px);
   box-sizing: border-box;
   padding: 20px;
+}
+
+.action{
+  background: #333842;
+  color: #D7DAE0;
+  font-weight: bolder;
+  font-size: 50px;
+  border: 3px solid #D7DAE0;
+  padding: 20px 50px;
+  border-radius: 10px;
 }
