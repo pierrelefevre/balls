@@ -21,7 +21,8 @@ export default function Players(props) {
     }
 
     return (
-        <div className="players">
+        
+        <div className={"players" + (props.hidden ? ' hide' : '')}>
             <h1>Players</h1>
             <input type="text" placeholder="Name then [Enter]" value={nameInput} ref={props.nameInputRef} onChange={handleChange} onKeyDown={addPlayer} />
 

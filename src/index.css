@@ -9,7 +9,7 @@ body {
   color: white;
   height: 100vh;
   width: 100vw;
-
+  overflow: hidden;
 }
 
 header {
@@ -39,7 +39,7 @@ header {
   border: 5px solid #333841;
   }
 
-.ball:hover{
+.ball:hover,.ball.hovered{
   border: 5px solid #528BFF
 }
 
@@ -58,7 +58,9 @@ header {
   padding-bottom: 5px;
 }
 
-
+.removed{
+  filter: brightness(50%);
+}
 .balls-holder {
   position: absolute;
   top: 100px;
@@ -71,7 +73,12 @@ header {
   flex-wrap: wrap;
   box-sizing: border-box;
   padding: 20px;
-  background: #333842
+  background: #333842;  
+  transition: width 0.25s ease-in-out;
+}
+
+.balls-holder.hide {
+  width: 100%
 }
 
 .players{
@@ -89,6 +96,11 @@ header {
   right: 0;
   box-sizing: border-box;
   padding: 20px 20px 20px 50px;
+  transition: transform 0.25s ease-in-out;
+}
+
+.players.hide {
+  transform: translateX(50vw);
 }
 
 .players input{
