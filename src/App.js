@@ -9,76 +9,91 @@ function App() {
       number: 1,
       color: 'yellow',
       striped: false,
+      active: true,
     },
     {
       number: 2,
       color: 'blue',
       striped: false,
+      active: true,
     },
     {
       number: 3,
       color: 'red',
       striped: false,
+      active: true,
     },
     {
       number: 4,
       color: 'purple',
       striped: false,
+      active: true,
     },
     {
       number: 5,
       color: 'orange',
       striped: false,
+      active: true,
     },
     {
       number: 6,
       color: 'green',
       striped: false,
+      active: true,
     },
     {
       number: 7,
       color: 'darkred',
       striped: false,
+      active: true,
     },
     {
       number: 8,
       color: 'black',
       striped: false,
+      active: true,
     },
     {
       number: 9,
       color: 'yellow',
       striped: true,
+      active: true,
     },
     {
       number: 10,
       color: 'blue',
       striped: true,
+      active: true,
     },
     {
       number: 11,
       color: 'red',
       striped: true,
+      active: true,
     },
     {
       number: 12,
       color: 'purple',
       striped: true,
+      active: true,
     },
     {
       number: 13,
       color: 'orange',
       striped: true,
+      active: true,
     },
     {
       number: 14,
       color: 'green',
       striped: true,
+      active: true,
     },
     {
       number: 15,
       color: 'darkred',
       striped: true,
+      active: true,
     }
   ]
 
@@ -110,8 +125,15 @@ function App() {
     if (gameState === "game started") {
       console.log(players)
 
-      setBalls(balls.filter(b => b.number !== ball.number));
+      
+      // Mark the selected ball as taken
+      balls.forEach(b =>{
+        if(b.number === ball.number){
+          b.active = false;
+        }
+      })
 
+      console.log(balls)
       var removePlayers = new Set()
 
       players.forEach(player => {
@@ -121,12 +143,12 @@ function App() {
 
           // Check if there is more than 1 ball with that color
           balls.forEach(b => {
-            if (b.color === ball.color)
-              count++;
+            if (b.color === ball.color && b.active)
+                count++;
           })
 
           // Remove player
-          if (count === 1) {
+          if (count === 0) {
             setInfo(player.name + " has been destroyed by " + players[activePlayer].name)
             removePlayers.add(player.name);
           }
@@ -142,7 +164,7 @@ function App() {
 
       console.log(filteredPlayers)
 
-      // If there is only 2 players left, game is over
+      // If there is only 1 players left, game is over
       if (filteredPlayers.length <= 1) {
         setInfo(activeLast.name + " has won the game!")
 
@@ -194,7 +216,7 @@ function App() {
         <div className="balls-holder">
           {
             balls.map(ball => {
-              return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} />)
+              return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} active={ball.active} />)
             })
           }
         </div>
