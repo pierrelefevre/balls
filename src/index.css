@@ -112,6 +112,10 @@ header {
   cursor: pointer;
 }
 
+.players-header button:hover{
+  border: 3px solid #528BFF
+}
+
 .players input{
   background: #333842;
   color: #D7DAE0;
@@ -172,6 +176,7 @@ header {
   cursor: pointer;
 }
 
-.action:focus{
+.action:focus,.action:hover{
   border: 3px solid #528BFF
 }
+
