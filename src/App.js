@@ -111,7 +111,8 @@ function App() {
     }
   ]
 
-  const [players, setPlayers] = useState(JSON.parse(sessionStorage.getItem("players")));
+  const maybePlayers = JSON.parse(sessionStorage.getItem("players"))
+  const [players, setPlayers] = useState(maybePlayers === null ? [] : maybePlayers);
   const [balls, setBalls] = useState(startingBalls);
   const [action, setAction] = useState("Start game");
   const [info, setInfo] = useState("Add players, then start the game");
