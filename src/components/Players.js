@@ -13,6 +13,7 @@ export default function Players(props) {
             props.players.push(
                 {
                     name: nameInput,
+                    id: Math.random(),
                 }
             )
             props.setPlayers(props.players);
