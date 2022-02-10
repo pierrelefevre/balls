@@ -217,37 +217,56 @@ function App() {
       console.log(balls)
       var removePlayers = new Set()
 
-      players.forEach(player => {
-        // If the ball and players have the same color
-        if (player.color === ball.color) {
-          var count = 0;
+      // Check if it was the last ball
+      let count = 0
+      balls.forEach(b => {
+        if (b.color === ball.color && b.active) {
+          count++
+        }
+      })
+      if (count === 0) {
+        // If ball is destroyed, check if any player had it
+        const destroyedPlayers = players.filter(p => p.color === ball.color)
 
-          // Check if there is more than 1 ball with that color
-          balls.forEach(b => {
-            if (b.color === ball.color && b.active)
-              count++;
-          })
+        console.log("Number of destroyed players: " + destroyedPlayers.length)
 
-          // Remove player
-          if (count === 0) {
-            setInfo(player.name + " has been destroyed by " + players[activePlayer].name)
-            removePlayers.add(player.name);
+        if (destroyedPlayers.length === 1) {
+          const player = destroyedPlayers[0]
+          console.log("Destroyed player: " + player.name)
+
+          if (player.id === players[activePlayer].id) {
+            setInfo(player.name + " destroyed itself. " + players[activePlayer + 1].name + ', your turn')
+          } else {
+            setInfo(player.name + " has been destroyed. " + players[activePlayer].name + " may now change color.")
+            // setGameState('change color')
           }
+        } else if (destroyedPlayers.length >= 1) {
+          // View all players that was destroyed
+          let destroyedPlayersString = destroyedPlayers.map(dp => dp.name).join(', ')
+          const destroyedItself = destroyedPlayers.find(dp => dp.id === players[activePlayer].id) !== undefined
+          const endString = destroyedItself ? 'No color change' : (players[activePlayer].name + ' may now change color')
+          setInfo(destroyedPlayersString + " were destroyed. " + endString)
         }
 
-      })
+        destroyedPlayers.forEach(dp => {
+          removePlayers.add(dp.id);
+        })
+      }
 
       // Remove all players that were eliminated this round
-
       const activeLast = players[activePlayer]
-      const filteredPlayers = players.filter(p => !removePlayers.has(p.name))
+      const filteredPlayers = players.filter(p => !removePlayers.has(p.id))
       setPlayers(filteredPlayers);
 
       console.log(filteredPlayers)
 
       // If there is only 1 players left, game is over
       if (filteredPlayers.length <= 1) {
-        setInfo(activeLast.name + " has won the game!")
+        if (filteredPlayers.length === 1) {
+          setInfo(filteredPlayers[0].name + " has won the game!")
+        } else {
+          setInfo(activeLast.name + " has won the game!")
+        }
 
         setAction("Restart");
         setGameState("game over");
@@ -295,7 +314,7 @@ function App() {
         <h1>Color Balls</h1>
       </header>
       <main>
-        <div className={"balls-holder" + (gameState === 'game started' ? ' hide' : '')}>
+        <div className={"balls-holder" + ((gameState === 'game started' || gameState === 'choose colors') ? ' hide' : '')}>
           {
             balls.map(ball => {
               return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} active={ball.active} hovered={ball.hovered} />)
@@ -303,7 +322,7 @@ function App() {
           }
         </div>
 
-        <Players hidden={gameState === 'game started'} players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
+        <Players hidden={gameState === 'game started' || gameState === 'choose colors'} players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
 
         <div className="controls">
           <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null}>
