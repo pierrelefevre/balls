@@ -127,7 +127,7 @@ function App() {
 
           // Remove player
           if (count === 1) {
-            setInfo(player.name + " has been eliminated by " + players[activePlayer].name)
+            setInfo(player.name + " has been destroyed by " + players[activePlayer].name)
             removePlayers.add(player.name);
           }
         }
