@@ -25,7 +25,7 @@ export default function Players(props) {
     }
 
     return (
-        <div className="players">
+        <div className={"players" + (props.hidden ? ' hide' : '')}>
             <div className="players-header">
                 <h1>Players</h1>
                 <button onClick={clearPlayers}>

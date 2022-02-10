@@ -1,6 +1,6 @@
 import Ball from './components/Ball';
 import Players from './components/Players';
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const startingBalls = [
@@ -9,95 +9,111 @@ function App() {
       color: 'yellow',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 2,
       color: 'blue',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 3,
       color: 'red',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 4,
       color: 'purple',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 5,
       color: 'orange',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 6,
       color: 'green',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 7,
       color: 'darkred',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 8,
       color: 'black',
       striped: false,
       active: true,
+      hovered: false,
     },
     {
       number: 9,
       color: 'yellow',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 10,
       color: 'blue',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 11,
       color: 'red',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 12,
       color: 'purple',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 13,
       color: 'orange',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 14,
       color: 'green',
       striped: true,
       active: true,
+      hovered: false,
     },
     {
       number: 15,
       color: 'darkred',
       striped: true,
       active: true,
+      hovered: false,
     }
   ]
 
-  const [players, setPlayers] = useState(JSON.parse(sessionStorage.getItem("players")));
-  const [balls] = useState(startingBalls);
+  const maybePlayers = JSON.parse(sessionStorage.getItem("players"))
+  const [players, setPlayers] = useState(maybePlayers === null ? [] : maybePlayers);
+  const [balls, setBalls] = useState(startingBalls);
   const [action, setAction] = useState("Start game");
   const [info, setInfo] = useState("Add players, then start the game");
   const [activePlayer, setActivePlayer] = useState(0);
@@ -109,7 +125,7 @@ function App() {
     // Setup on click hooks
     const keyUpListener = event => {
       // Escape if inputting player names
-      if(document.activeElement === playerInput.current){
+      if (document.activeElement === playerInput.current) {
         return
       }
 
@@ -118,26 +134,54 @@ function App() {
         return
       }
 
-      if(event.code.includes('Digit')){
+      if (event.code.includes('Digit')) {
         let ballNumber = parseInt(event.code.substr('Digit'.length))
-        if(ballNumber === 0){
+        if (ballNumber === 0) {
           ballNumber = 10
         }
-        if(event.shiftKey){
+        if (event.shiftKey) {
           ballNumber += 10
         }
         let ball = balls.find(b => b.number === ballNumber)
-        console.log("clicked ball: ")
-        console.log(ball)
-        if(ball !== undefined){
+        if (ball !== undefined) {
+          ball.hovered = false
           ballClicked(ball)
         }
       }
     }
+    const keyDownListener = event => {
+
+      // Escape if inputting player names
+      if (document.activeElement === playerInput.current) {
+        return
+      }
+
+      if (event.code.includes('Digit')) {
+        let ballNumber = parseInt(event.code.substr('Digit'.length))
+        if (ballNumber === 0) {
+          ballNumber = 10
+        }
+        if (event.shiftKey) {
+          ballNumber += 10
+        }
+        balls.forEach(b => {
+          if (b.number === ballNumber) {
+            let alreadyHovered = balls.find(otherB => otherB.hovered)
+            if (alreadyHovered === undefined) {
+              b.hovered = true
+              const theBalls = balls
+              setBalls([])
+              setBalls(theBalls)
+            }
+          }
+        })
+      }
+    }
     document.addEventListener('keyup', keyUpListener)
+    document.addEventListener('keydown', keyDownListener)
     return _ => {
-      console.log('remove listener')
       document.removeEventListener('keyup', keyUpListener)
+      document.removeEventListener('keydown', keyDownListener)
     }
   })
 
@@ -162,11 +206,11 @@ function App() {
     if (gameState === "game started") {
       console.log(players)
 
-      
+
       // Mark the selected ball as taken
-      balls.forEach(b =>{
-        if(b.number === ball.number){
-          b.active = false;
+      balls.forEach(b => {
+        if (b.number === ball.number) {
+          b.active = false
         }
       })
 
@@ -181,7 +225,7 @@ function App() {
           // Check if there is more than 1 ball with that color
           balls.forEach(b => {
             if (b.color === ball.color && b.active)
-                count++;
+              count++;
           })
 
           // Remove player
@@ -251,15 +295,15 @@ function App() {
         <h1>Color Balls</h1>
       </header>
       <main>
-        <div className="balls-holder">
+        <div className={"balls-holder" + (gameState === 'game started' ? ' hide' : '')}>
           {
             balls.map(ball => {
-              return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} active={ball.active} />)
+              return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} active={ball.active} hovered={ball.hovered} />)
             })
           }
         </div>
 
-        <Players players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
+        <Players hidden={gameState === 'game started'} players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
 
         <div className="controls">
           <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null}>
