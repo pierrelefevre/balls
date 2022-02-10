@@ -235,7 +235,7 @@ function App() {
           console.log("Destroyed player: " + player.name)
 
           if (player.id === players[activePlayer].id) {
-            setInfo(player.name + " destroyed itself. " + players[activePlayer + 1].name + ', your turn')
+            setInfo(player.name + " destroyed itself. " + players[(activePlayer + 1) % players.length].name + ', your turn')
           } else {
             setInfo(player.name + " has been destroyed. " + players[activePlayer].name + " may now change color.")
             // setGameState('change color')
