@@ -1,7 +1,6 @@
 import Ball from './components/Ball';
 import Players from './components/Players';
-import { useState } from "react";
-
+import React, {useEffect, useState} from "react";
 
 function App() {
   const startingBalls = [
@@ -88,6 +87,44 @@ function App() {
   const [info, setInfo] = useState("Add players, then start the game");
   const [activePlayer, setActivePlayer] = useState(0);
   const [gameState, setGameState] = useState("not started");
+  const playerInput = React.useRef(null)
+
+
+  useEffect(() => {
+    // Setup on click hooks
+    const keyUpListener = event => {
+      // Escape if inputting player names
+      if(document.activeElement === playerInput.current){
+        return
+      }
+
+      if (event.code === 'Space') {
+        actionButton()
+        return
+      }
+
+      if(event.code.includes('Digit')){
+        let ballNumber = parseInt(event.code.substr('Digit'.length))
+        if(ballNumber === 0){
+          ballNumber = 10
+        }
+        if(event.shiftKey){
+          ballNumber += 10
+        }
+        let ball = balls.find(b => b.number === ballNumber)
+        console.log("clicked ball: ")
+        console.log(ball)
+        if(ball !== undefined){
+          ballClicked(ball)
+        }
+      }
+    }
+    document.addEventListener('keyup', keyUpListener)
+    return _ => {
+      console.log('remove listener')
+      document.removeEventListener('keyup', keyUpListener)
+    }
+  })
 
   const ballClicked = (ball) => {
     if (gameState === "choose colors") {
@@ -199,7 +236,7 @@ function App() {
           }
         </div>
 
-        <Players players={players} setPlayers={setPlayers} />
+        <Players players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
 
         <div className="controls">
           <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null}>
@@ -211,5 +248,6 @@ function App() {
     </div>
   )
 }
+
 
 export default App;
