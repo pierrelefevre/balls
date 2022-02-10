@@ -1,3 +1,25 @@
+![balls logo](https://raw.githubusercontent.com/PierreLeFevre/balls/main/public/logo.png)
+# Balls
+
+>  ### I hate it when people cheat and change their ball color
+>  -Balls player
+
+Balls, the webapp to keep track of your balls. 
+Choose colors, see who's turn it is, and stop cheaters!
+
+**Use balls!**
+
+## Contributing
+
+Please feel free to contribute to the Balls repo. 
+- Get started with the guide below
+- Create an issue
+- Send a Pull Request
+
+Once the PR is approved, it will automatically be deployed to [the web](https://balls.pierrelf.com/).
+
+---
+
 # Getting Started with Balls
 
 ## Available Scripts
