@@ -1,4 +1,4 @@
-![balls logo](https://raw.githubusercontent.com/PierreLeFevre/balls/main/public/logo.png)
+![balls logo](https://raw.githubusercontent.com/PierreLeFevre/balls/main/public/android-chrome-192x192.png)
 # Balls
 
 >  ### I hate it when people cheat and change their ball color
