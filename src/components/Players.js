@@ -23,7 +23,7 @@ export default function Players(props) {
     return (
         <div className="players">
             <h1>Players</h1>
-            <input type="text" placeholder="Name then [Enter]" value={nameInput} onChange={handleChange} onKeyDown={addPlayer} />
+            <input type="text" placeholder="Name then [Enter]" value={nameInput} ref={props.nameInputRef} onChange={handleChange} onKeyDown={addPlayer} />
 
             {
                 props.players !== null ?
