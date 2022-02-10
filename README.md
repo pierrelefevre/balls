@@ -2,7 +2,7 @@
 # Balls
 
 >  ### I hate it when people cheat and change their ball color
->  -Balls player
+>  -Non balls user
 
 Balls, the webapp to keep track of your balls. 
 Choose colors, see who's turn it is, and stop cheaters!
