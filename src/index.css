@@ -103,6 +103,25 @@ header {
   transform: translateX(50vw);
 }
 
+.players-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 366px;
+}
+
+.players-header button{
+  background: #333842;
+  color: #D7DAE0;
+  font-weight: bolder;
+  font-size: 25px;
+  border: 3px solid #333842;
+  outline: 0;
+  padding: 10px 25px;
+  user-select: none;
+  cursor: pointer;
+}
+
 .players input{
   background: #333842;
   color: #D7DAE0;
