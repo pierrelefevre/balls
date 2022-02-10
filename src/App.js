@@ -96,7 +96,7 @@ function App() {
     }
   ]
 
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(JSON.parse(sessionStorage.getItem("players")));
   const [balls, setBalls] = useState(startingBalls);
   const [action, setAction] = useState("Start game");
   const [info, setInfo] = useState("Add players, then start the game");
@@ -214,7 +214,8 @@ function App() {
   const actionButton = () => {
     switch (gameState) {
       case "not started":
-        if (players.length > 0) {
+        if (players.length > 1) {
+          sessionStorage.setItem("players", JSON.stringify(players))
           setGameState("choose colors");
           setAction("");
           const player = players[activePlayer];
