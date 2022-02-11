@@ -119,13 +119,14 @@ function App() {
   const [activePlayer, setActivePlayer] = useState(0);
   const [gameState, setGameState] = useState("not started");
   const playerInput = React.useRef(null)
+  const actionButtonRef = React.useRef(null)
 
 
   useEffect(() => {
     // Setup on click hooks
     const keyUpListener = event => {
       // Escape if inputting player names
-      if (document.activeElement === playerInput.current) {
+      if (document.activeElement === playerInput.current || document.activeElement === actionButtonRef.current) {
         return
       }
 
@@ -325,7 +326,7 @@ function App() {
         <Players hidden={gameState === 'game started' || gameState === 'choose colors'} players={players} setPlayers={setPlayers} nameInputRef={playerInput} />
 
         <div className="controls">
-          <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null}>
+          <button className="action" onClick={actionButton} style={action === "" ? { display: "none" } : null} ref={actionButtonRef}>
             {action}
           </button>
           <h1>{info}</h1>
