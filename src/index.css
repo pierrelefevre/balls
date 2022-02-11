@@ -23,6 +23,13 @@ header {
   background: #21252B;
 }
 
+.header-buttons{
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
 .logo{
   height: 100px;
   margin-right: 1em;
@@ -59,7 +66,7 @@ header {
 }
 
 .removed{
-  filter: brightness(50%);
+  filter: brightness(25%);
 }
 .balls-holder {
   position: absolute;
@@ -74,11 +81,13 @@ header {
   box-sizing: border-box;
   padding: 20px;
   background: #333842;  
-  transition: width 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+  border-bottom: 1px solid #757575;
 }
 
 .balls-holder.hide {
-  width: 100%
+  height: calc(100% - 100px);
+  border-bottom: 0;
 }
 
 .players{
@@ -96,11 +105,15 @@ header {
   right: 0;
   box-sizing: border-box;
   padding: 20px 20px 20px 50px;
-  transition: transform 0.25s ease-in-out;
+  opacity: 1;
+  transition: all 0.25s ease-in-out;
+  border-bottom: 1px solid #757575;
 }
 
 .players.hide {
   transform: translateX(50vw);
+  opacity: 0;
+  border-bottom: 0;
 }
 
 .players-header{
@@ -141,7 +154,7 @@ header {
   border: 3px solid #528BFF
 }
 
-.players span{
+.players .player-row{
   color: #D7DAE0;
   font-weight: bolder;
   font-size: 20px;
@@ -151,6 +164,18 @@ header {
   min-width: 366px;
   box-sizing: border-box;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-row .delete{
+  color: #E05A54;
+}
+
+.player-row svg{
+  cursor: pointer;
+  user-select: none;
 }
 
 .player-controls{
@@ -171,7 +196,14 @@ header {
   align-items: center;
   width: 100%;
   flex-direction: column;
-  border-top: 1px solid #757575;
+  transition: all 0.2s ease-in-out;
+}
+
+.controls.started {
+  width: 50%;
+  height: calc(100% - 100px);
+  border: 0;
+  transform: translateX(50vw);
 }
 
 .action{
