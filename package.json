@@ -2,6 +2,7 @@
   "name": "balls",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pierrelefevre.github.io/balls",
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
@@ -11,8 +12,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4",
-    "homepage": "https://pierrelefevre.github.io/balls"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
