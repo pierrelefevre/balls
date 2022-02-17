@@ -115,7 +115,7 @@ export default function BallsHolder() {
                     console.log("Destroyed player: " + player.name)
 
                     if (player.id === game.players[game.activePlayer].id) {
-                        game.setInfo(player.name + " destroyed themself. " + game.players[(game.activePlayer + 1) % game.players.length].name + ', your turn')
+                        game.setInfo(player.name + " destroyed themselves. " + game.players[(game.activePlayer + 1) % game.players.length].name + ', your turn')
                     } else {
                         game.setInfo(player.name + " has been destroyed. " + game.players[game.activePlayer].name + " may now change color.")
                         // setGameState('change color')
