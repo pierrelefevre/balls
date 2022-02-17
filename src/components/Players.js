@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import PlayerRow from "./PlayerRow";
+import { GameContext } from '../App';
 
-export default function Players(props) {
+export default function Players() {
+    const game = useContext(GameContext);
 
     const [nameInput, setNameInput] = useState([]);
 
@@ -11,57 +13,57 @@ export default function Players(props) {
 
     const addPlayer = (e) => {
         if (e.key === "Enter") {
-            props.players.push(
+            game.players.push(
                 {
                     name: nameInput,
                     id: Math.random(),
                 }
             )
-            props.setPlayers(props.players);
+            game.setPlayers(game.players);
             setNameInput("");
         }
     }
 
     const clearPlayers = () => {
-        props.setPlayers([])
+        game.setPlayers([])
         sessionStorage.removeItem("players")
     }
 
     const removePlayer = (player) => {
-        let filteredPlayers = props.players.filter(p => { return p.id !== player.id })
-        props.setPlayers(filteredPlayers)
+        let filteredPlayers = game.players.filter(p => { return p.id !== player.id })
+        game.setPlayers(filteredPlayers)
+
         console.log("Removed player: " + player.name)
-        console.log(props.players)
+        console.log(game.players)
         sessionStorage.setItem("players", JSON.stringify(filteredPlayers))
     }
 
     return (
-        <div className={"players" + (!props.visible ? ' hide' : '')}>
+        <div className={"players" + (!game.playersVisible ? ' hide' : '')}>
             <div className="players-header">
                 <h1>Players</h1>
-                {props.gameState === "not started" ?
+                {game.gameState === "not started" ?
                     <button onClick={clearPlayers}>
                         Clear
                     </button>
                     : null}
             </div>
-            {props.gameState === "not started" ?
+            {game.gameState === "not started" ?
 
-                <input type="text" placeholder="Name then [Enter]" value={nameInput} ref={props.playerInput} onChange={handleChange} onKeyDown={addPlayer} />
+                <input type="text" placeholder="Name then [Enter]" value={nameInput} ref={game.playerInput} onChange={handleChange} onKeyDown={addPlayer} />
 
-                : null}
-
+                : null
+            }
 
             {
-                props.players !== null ?
-                    props.players.map((player, index) => {
+                game.players !== null ?
+                    game.players.map((player, index) => {
                         return (<PlayerRow
                             player={player}
                             index={index}
                             removePlayer={removePlayer}
-                            gameState={props.gameState}
                             key={player.id}
-                            playersVisible={props.playersVisible} />)
+                        />)
                     }) : null
             }
         </div>

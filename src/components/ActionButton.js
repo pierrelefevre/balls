@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { GameContext } from '../App';
 
-export default function ActionButton(props) {
+export default function ActionButton() {
+    const game = useContext(GameContext);
+
     useEffect(() => {
         // Setup on click hooks
         const keyUpListener = event => {
             // Escape if inputting player names
-            if (document.activeElement === props.playerInput.current || document.activeElement === props.actionButtonRef.current) {
+            if (document.activeElement === game.playerInput.current || document.activeElement === game.actionButtonRef.current) {
                 return
             }
 
@@ -17,7 +20,7 @@ export default function ActionButton(props) {
 
         const keyDownListener = event => {
             // Escape if inputting player names
-            if (document.activeElement === props.playerInput.current) {
+            if (document.activeElement === game.playerInput.current) {
                 return
             }
         }
@@ -31,29 +34,29 @@ export default function ActionButton(props) {
 
 
     const actionButton = () => {
-        switch (props.gameState) {
+        switch (game.gameState) {
             case "not started":
-                if (props.players.length > 1) {
-                    sessionStorage.setItem("players", JSON.stringify(props.players))
-                    props.setGameState("choose colors");
-                    props.setAction("");
-                    const player = props.players[props.activePlayer];
-                    props.setInfo(player.name + ", choose color")
-                    props.setPlayersVisible(false)
+                if (game.players.length > 1) {
+                    sessionStorage.setItem("players", JSON.stringify(game.players))
+                    game.setGameState("choose colors");
+                    game.setAction("");
+                    const player = game.players[game.activePlayer];
+                    game.setInfo(player.name + ", choose color")
+                    game.setPlayersVisible(false)
                 } else {
-                    props.setInfo("Please add players");
+                    game.setInfo("Please add players");
                 }
                 break;
 
             case "game started":
-                if (props.activePlayer >= props.players.length - 1) {
-                    console.log(props.players);
-                    props.setInfo(props.players[0].name + ", your turn");
-                    props.setActivePlayer(0);
+                if (game.activePlayer >= game.players.length - 1) {
+                    console.log(game.players);
+                    game.setInfo(game.players[0].name + ", your turn");
+                    game.setActivePlayer(0);
                 }
                 else {
-                    props.setInfo(props.players[props.activePlayer + 1].name + ", your turn");
-                    props.setActivePlayer(props.activePlayer + 1);
+                    game.setInfo(game.players[game.activePlayer + 1].name + ", your turn");
+                    game.setActivePlayer(game.activePlayer + 1);
                 }
                 break;
 
@@ -61,7 +64,7 @@ export default function ActionButton(props) {
                 window.location.reload(false);
                 break;
             default:
-                props.setInfo("Illegal click");
+                game.setInfo("Illegal click");
         }
     }
 
@@ -69,9 +72,9 @@ export default function ActionButton(props) {
         <button
             className="action"
             onClick={actionButton}
-            style={props.action === "" ? { display: "none" } : null}
-            ref={props.actionButtonRef}>
-            {props.action}
+            style={game.action === "" ? { display: "none" } : null}
+            ref={game.actionButtonRef}>
+            {game.action}
         </button>
     )
 }
