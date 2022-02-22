@@ -1,0 +1,40 @@
+@media only screen and (max-width: 600px) {
+    .balls-holder{
+        height: calc(calc(100% - 100px ) / 2 );
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .balls-holder.hide {
+        height: calc(calc(100% - 100px ) / 2 );
+    }
+
+    .players{
+        height: calc(calc(100% - 100px )/ 2 );
+        width: 100%;
+        bottom: 0;
+        top: auto;
+        z-index: 3000;
+        padding: 10px 10px 10px 15px;
+    }
+
+    .players.hide{
+        display: none;
+    }
+    
+    .controls{
+        height: calc(calc(100% - 100px )/ 2 );
+        width: 100%;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        z-index: 1000;
+    }
+
+    .controls.started{
+        width:100%;
+        height: calc(calc(100% - 100px )/ 2 );
+        transform: none;
+    }
+
+}
