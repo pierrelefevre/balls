@@ -1,22 +1,17 @@
+import React, { useContext } from "react";
+import { GameContext } from '../App';
+
+
 import ActionButton from './ActionButton';
 import InfoDisplay from './InfoDisplay';
 
-export default function Controls(props) {
-    return (
-        <div className={!props.playersVisible ? "controls started" : "controls"}>
-            <ActionButton
+export default function Controls() {
 
-                balls={props.balls} setBalls={props.setBalls}
-                players={props.players} setPlayers={props.setPlayers}
-                action={props.action} setAction={props.setAction}
-                info={props.info} setInfo={props.setInfo}
-                activePlayer={props.activePlayer} setActivePlayer={props.setActivePlayer}
-                gameState={props.gameState} setGameState={props.setGameState}
-                playerInput={props.playerInput}
-                actionButtonRef={props.actionButtonRef}
-                setPlayersVisible={props.setPlayersVisible}
-            />
-            <InfoDisplay info={props.info} />
+    const game = useContext(GameContext);
+    return (
+        <div className={!game.playersVisible ? "controls started" : "controls"}>
+            <ActionButton />
+            <InfoDisplay />
         </div>
     )
 }

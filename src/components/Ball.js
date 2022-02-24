@@ -1,10 +1,11 @@
 export default function Ball(props) {
 
+
     let className = 'ball'
-    if(props.hovered){
+    if (props.hovered) {
         className += ' hovered'
     }
-    if(!props.active){
+    if (!props.active) {
         className += ' removed'
     }
 
