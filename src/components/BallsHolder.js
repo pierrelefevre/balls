@@ -84,11 +84,14 @@ export default function BallsHolder() {
             }
         }
         if (game.gameState === "change color") {
-
-            game.players[game.activePlayer].color = ball.color;
-            game.setGameState("game started");
-            game.setAction("Next player")
-            game.setInfo("Color has been changed, please continue");
+            if (ball.active) {
+                game.players[game.activePlayer].color = ball.color;
+                game.setGameState("game started");
+                game.setAction("Next player")
+                game.setInfo("Color has been changed, please continue");
+            } else {
+                game.setInfo("Can't choose a ball that is gone")
+            }
         }
         if (game.gameState === "game started") {
             console.log(game.players)
@@ -133,6 +136,7 @@ export default function BallsHolder() {
                     const destroyedItself = destroyedPlayers.find(dp => dp.id === game.players[game.activePlayer].id) !== undefined
                     const endString = destroyedItself ? 'No color change' : (game.players[game.activePlayer].name + ' may now change color')
                     game.setInfo(destroyedPlayersString + " were destroyed. " + endString)
+                    game.setGameState('change color')
                 }
 
                 destroyedPlayers.forEach(dp => {
@@ -165,7 +169,7 @@ export default function BallsHolder() {
         <div className={"balls-holder" + (!game.playersVisible ? ' hide' : '')}>
             {game.balls !== null ?
                 game.balls.map(ball => {
-                    return (<Ball clicked={ballClicked} key={ball.number} number={ball.number} color={ball.color} striped={ball.striped} active={ball.active} hovered={ball.hovered} />)
+                    return (<Ball clicked={ballClicked} key={ball.number} ball={ball} />)
                 })
                 : null
             }
