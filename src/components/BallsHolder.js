@@ -83,6 +83,13 @@ export default function BallsHolder() {
                 game.setInfo(player.name + ", choose color")
             }
         }
+        if (game.gameState === "change color") {
+
+            game.players[game.activePlayer].color = ball.color;
+            game.setGameState("game started");
+            game.setAction("Next player")
+            game.setInfo("Color has been changed, please continue");
+        }
         if (game.gameState === "game started") {
             console.log(game.players)
 
@@ -118,7 +125,7 @@ export default function BallsHolder() {
                         game.setInfo(player.name + " destroyed themselves. " + game.players[(game.activePlayer + 1) % game.players.length].name + ', your turn')
                     } else {
                         game.setInfo(player.name + " has been destroyed. " + game.players[game.activePlayer].name + " may now change color.")
-                        // setGameState('change color')
+                        game.setGameState('change color')
                     }
                 } else if (destroyedPlayers.length >= 1) {
                     // View all players that was destroyed
