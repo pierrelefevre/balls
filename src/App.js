@@ -18,6 +18,20 @@ function App() {
   const [playersVisible, setPlayersVisible] = useState(true);
   const playerInput = useRef(null)
   const actionButtonRef = useRef(null)
+  const [states, setStates] = useState([])
+
+  const advance = (game) => {
+    setStates([...states, JSON.stringify(
+      {
+        players: game.players,
+        balls: game.balls,
+        action: game.action,
+        info: game.info,
+        activePlayer: game.activePlayer,
+        gameState: game.gameState,
+        playersVisible: game.playersVisible
+      })])
+  }
 
   const game = {
 
@@ -36,7 +50,9 @@ function App() {
     playersVisible,
     setPlayersVisible,
     playerInput,
-    actionButtonRef
+    actionButtonRef,
+    advance,
+    states
   }
 
 

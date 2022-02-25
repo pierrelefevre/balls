@@ -65,104 +65,106 @@ export default function BallsHolder() {
     })
 
     const ballClicked = (ball) => {
-        console.log("Ball was clicked! " + ball.number)
-        if (game.gameState === "choose colors") {
+        if (game.gameState === "choose colors") chooseColorsHandler(ball)
+        if (game.gameState === "change color") changeColorHandler(ball)
+        if (game.gameState === "game started") gameStartedHandler(ball)
+    }
+
+    const chooseColorsHandler = (ball) => {
+        game.players[game.activePlayer].color = ball.color;
+
+        if (game.activePlayer >= game.players.length - 1) {
+            game.setGameState("game started");
+            game.setAction("Next player")
+            game.setActivePlayer(0);
+            game.setInfo(game.players[0].name + ", start the game");
+            game.advance(game)
+        }
+        else {
+            game.setAction("");
+            const player = game.players[game.activePlayer + 1];
+            game.setActivePlayer(game.activePlayer + 1);
+
+            game.setInfo(player.name + ", choose color")
+            game.advance(game)
+        }
+    }
+
+    const changeColorHandler = (ball) => {
+        if (ball.active) {
             game.players[game.activePlayer].color = ball.color;
-
-            if (game.activePlayer >= game.players.length - 1) {
-                game.setGameState("game started");
-                game.setAction("Next player")
-                game.setActivePlayer(0);
-                game.setInfo(game.players[0].name + ", start the game");
-            }
-            else {
-                game.setAction("");
-                const player = game.players[game.activePlayer + 1];
-                game.setActivePlayer(game.activePlayer + 1);
-
-                game.setInfo(player.name + ", choose color")
-            }
+            game.setGameState("game started");
+            game.setAction("Next player")
+            game.setInfo("Color has been changed, please continue");
+            game.advance(game)
+        } else {
+            game.setInfo("Can't choose a ball that is gone")
         }
-        if (game.gameState === "change color") {
-            if (ball.active) {
-                game.players[game.activePlayer].color = ball.color;
-                game.setGameState("game started");
-                game.setAction("Next player")
-                game.setInfo("Color has been changed, please continue");
-            } else {
-                game.setInfo("Can't choose a ball that is gone")
+    }
+
+    const gameStartedHandler = (ball) => {
+        // Mark the selected ball as taken
+        game.balls.forEach(b => {
+            if (b.number === ball.number) {
+                b.active = false
             }
-        }
-        if (game.gameState === "game started") {
-            console.log(game.players)
+        })
 
+        var removePlayers = new Set()
 
-            // Mark the selected ball as taken
-            game.balls.forEach(b => {
-                if (b.number === ball.number) {
-                    b.active = false
-                }
-            })
+        // Check if it was the last ball
+        let count = 0
+        game.balls.forEach(b => {
+            if (b.color === ball.color && b.active) {
+                count++
+            }
+        })
+        if (count === 0) {
+            // If ball is destroyed, check if any player had it
+            const destroyedPlayers = game.players.filter(p => p.color === ball.color)
 
-            console.log(game.balls)
-            var removePlayers = new Set()
+            if (destroyedPlayers.length === 1) {
+                const player = destroyedPlayers[0]
 
-            // Check if it was the last ball
-            let count = 0
-            game.balls.forEach(b => {
-                if (b.color === ball.color && b.active) {
-                    count++
-                }
-            })
-            if (count === 0) {
-                // If ball is destroyed, check if any player had it
-                const destroyedPlayers = game.players.filter(p => p.color === ball.color)
-
-                console.log("Number of destroyed players: " + destroyedPlayers.length)
-
-                if (destroyedPlayers.length === 1) {
-                    const player = destroyedPlayers[0]
-                    console.log("Destroyed player: " + player.name)
-
-                    if (player.id === game.players[game.activePlayer].id) {
-                        game.setInfo(player.name + " destroyed themselves. " + game.players[(game.activePlayer + 1) % game.players.length].name + ', your turn')
-                    } else {
-                        game.setInfo(player.name + " has been destroyed. " + game.players[game.activePlayer].name + " may now change color.")
-                        game.setGameState('change color')
-                    }
-                } else if (destroyedPlayers.length >= 1) {
-                    // View all players that was destroyed
-                    let destroyedPlayersString = destroyedPlayers.map(dp => dp.name).join(', ')
-                    const destroyedItself = destroyedPlayers.find(dp => dp.id === game.players[game.activePlayer].id) !== undefined
-                    const endString = destroyedItself ? 'No color change' : (game.players[game.activePlayer].name + ' may now change color')
-                    game.setInfo(destroyedPlayersString + " were destroyed. " + endString)
+                if (player.id === game.players[game.activePlayer].id) {
+                    game.setInfo(player.name + " destroyed themselves. " + game.players[(game.activePlayer + 1) % game.players.length].name + ', your turn')
+                } else {
+                    game.setInfo(player.name + " has been destroyed. " + game.players[game.activePlayer].name + " may now change color.")
                     game.setGameState('change color')
                 }
-
-                destroyedPlayers.forEach(dp => {
-                    removePlayers.add(dp.id);
-                })
-            }
-
-            // Remove all players that were eliminated this round
-            const activeLast = game.players[game.activePlayer]
-            const filteredPlayers = game.players.filter(p => !removePlayers.has(p.id))
-            game.setPlayers(filteredPlayers);
-
-            console.log(filteredPlayers)
-
-            // If there is only 1 players left, game is over
-            if (filteredPlayers.length <= 1) {
-                if (filteredPlayers.length === 1) {
-                    game.setInfo(filteredPlayers[0].name + " has won the game!")
-                } else {
-                    game.setInfo(activeLast.name + " has won the game!")
+            } else if (destroyedPlayers.length >= 1) {
+                // View all players that was destroyed
+                let destroyedPlayersString = destroyedPlayers.map(dp => dp.name).join(', ')
+                const destroyedItself = destroyedPlayers.find(dp => dp.id === game.players[game.activePlayer].id) !== undefined
+                const endString = destroyedItself ? 'No color change' : (game.players[game.activePlayer].name + ' may now change color')
+                game.setInfo(destroyedPlayersString + " were destroyed. " + endString)
+                if (!destroyedItself) {
+                    game.setGameState('change color')
                 }
-
-                game.setAction("Restart");
-                game.setGameState("game over");
             }
+
+            destroyedPlayers.forEach(dp => {
+                removePlayers.add(dp.id);
+            })
         }
+
+        // Remove all players that were eliminated this round
+        const activeLast = game.players[game.activePlayer]
+        const filteredPlayers = game.players.filter(p => !removePlayers.has(p.id))
+        game.setPlayers(filteredPlayers);
+
+        // If there is only 1 players left, game is over
+        if (filteredPlayers.length <= 1) {
+            if (filteredPlayers.length === 1) {
+                game.setInfo(filteredPlayers[0].name + " has won the game!")
+            } else {
+                game.setInfo(activeLast.name + " has won the game!")
+            }
+
+            game.setAction("Restart");
+            game.setGameState("game over");
+        }
+        game.advance(game)
     }
 
     return (

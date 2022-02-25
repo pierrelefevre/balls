@@ -66,6 +66,8 @@ export default function ActionButton() {
             default:
                 game.setInfo("Illegal click");
         }
+
+        game.advance(game)
     }
 
     return (

@@ -29,6 +29,7 @@
         top: auto;
         transform: none;
         z-index: 1000;
+        flex-direction: column;
     }
 
     .controls.started{

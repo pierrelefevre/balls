@@ -26,6 +26,13 @@ header {
   background: #21252B;
 }
 
+.header-player-turn{
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
 .header-buttons{
   position: absolute;
   right: 20px;
@@ -199,7 +206,7 @@ header {
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  flex-direction: column;
+  flex-direction: row;
   transition: all 0.2s ease-in-out;
 }
 
@@ -208,6 +215,7 @@ header {
   height: calc(100% - 100px);
   border: 0;
   transform: translateX(50vw);
+  flex-direction: column;
 }
 
 .action{

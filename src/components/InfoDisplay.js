@@ -5,6 +5,8 @@ export default function InfoDisplay() {
     const game = useContext(GameContext);
 
     return (
-        <h1>{game.info}</h1>
+        <div>
+            <h1>{game.info}</h1>
+        </div>
     )
 }
